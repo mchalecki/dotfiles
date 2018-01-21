@@ -1,0 +1,10 @@
+[user]
+	name = Marcin Chalecki
+	email = alcaster@op.pl
+[alias]
+	co = checkout
+	br = branch
+	ci = commit
+	st = status
+[core]
+	autocrlf = input

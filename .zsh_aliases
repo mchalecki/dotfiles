@@ -1,0 +1,62 @@
+# Aliases
+
+alias ..='cd ..'
+alias cd..='cd ..'
+alias mkdir='mkdir -p'
+alias ll="ls -lv --group-directories-first"
+alias la='ll -A'
+alias weather='curl wttr.in'
+alias pingg='ping 8.8.8.8'
+alias pip_upgrade_all='pip freeze | cut -d = -f 1 | xargs pip install --upgrade'
+alias grep='grep --color=auto'
+alias elf='function _elf(){ ps -elf | grep _$1 ; }; _elf'
+
+# Functions
+function extract()
+{
+    if [ -f $1 ] ; then
+        case $1 in
+            *.tar.bz2)   tar xvjf $1     ;;
+            *.tar.gz)    tar xvzf $1     ;;
+            *.bz2)       bunzip2 $1      ;;
+            *.rar)       unrar x $1      ;;
+            *.gz)        gunzip $1       ;;
+            *.tar)       tar xvf $1      ;;
+            *.tbz2)      tar xvjf $1     ;;
+            *.tgz)       tar xvzf $1     ;;
+            *.zip)       unzip $1        ;;
+            *.Z)         uncompress $1   ;;
+            *.7z)        7z x $1         ;;
+            *)           echo "'$1' cannot be extracted via >extract<" ;;
+        esac
+    else
+        echo "'$1' is not a valid file!"
+    fi
+}
+function docker_ip()
+{
+    if [ $# -eq 0 ]; then
+        echo "No arguments provided"
+        exit 1
+    else
+        docker inspect $1|grep IPAddress
+    fi
+}
+function google() {
+    search=""
+    echo "Googling: $@"
+    for term in $@; do
+        search="$search%20$term"
+    done
+    xdg-open "http://www.google.com/search?q=$search"
+}
+function mcd ()
+{
+    mkdir -p -- "$1" &&
+    cd -P -- "$1"
+}
+function rmd ()
+{
+    pandoc $1 | lynx -stdin
+}
+
