@@ -16,6 +16,7 @@ Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 "--------------"
 " Other plugins"
 Plugin 'scrooloose/nerdtree'
+Plugin 'Chiel92/vim-autoformat'
 "Plugin 'fatih/vim-go'
 "Plugin 'rjohnsondev/vim-compiler-go'
 Plugin 'scrooloose/syntastic'
@@ -29,6 +30,8 @@ Plugin 'tpope/vim-surround'
 Plugin 'nanotech/jellybeans.vim'
 Plugin 'nvie/vim-flake8'
 Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -66,6 +69,7 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 "let g:golang_goroot = "/usr/local/go"
+let g:airline_theme='wombat'
 
 " Python run
 nnoremap <buffer> <F9> :exec '!python' shellescape(@%, 1)<cr>

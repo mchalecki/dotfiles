@@ -35,6 +35,8 @@ eval "$(pyenv virtualenv-init -)"
 
 # Terminal
 export TERMINAL="/usr/bin/urxvt"
+# Anaconda
+
 # CUDA
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:/usr/local/cuda/include"  
 export CUDA_HOME=/usr/local/cuda
@@ -75,9 +77,11 @@ DISABLE_AUTO_UPDATE="true"
 # HIST_STAMPS="mm/dd/yyyy"
 
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # added by travis gem
 [ -f /home/alcaster/.travis/travis.sh ] && source /home/alcaster/.travis/travis.sh
 # Config files https://developer.atlassian.com/blog/2016/02/best-way-to-store-dotfiles-git-bare-repo/
 alias config='/usr/bin/git --git-dir=/home/alcaster/.cfg/ --work-tree=/home/alcaster'
+. /home/alcaster/bin/miniconda3/etc/profile.d/conda.sh
