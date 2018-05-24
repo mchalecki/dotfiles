@@ -53,7 +53,14 @@ set relativenumber
 syntax on
 " Render only on changes
 set lazyredraw
+" Persistent undo
+if has('persistent_undo')      "check if your vim version supports it
+  set undofile                 "turn on the feature  
+  set undodir=$HOME/.vim/undo  "directory where the undo files will be stored
+  endif     
 
+" Swapfiles
+set directory=$HOME/.vim/swapfiles//
 "Custom shortcuts
 imap ;; <Esc>
 "let g:user_emmet_leader_key=']'

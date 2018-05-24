@@ -11,6 +11,7 @@ alias pip_upgrade_all='pip freeze | cut -d = -f 1 | xargs pip install --upgrade'
 alias grep='grep --color=auto'
 alias elf='function _elf(){ ps -elf | grep _$1 ; }; _elf'
 alias nvidia-smi='watch -t -n 1 nvidia-smi'
+alias p='python'
 
 # Functions
 function extract()

@@ -112,9 +112,5 @@ if ! shopt -oq posix; then
   fi
 fi
 
-
 # added by travis gem
 [ -f /home/alcaster/.travis/travis.sh ] && source /home/alcaster/.travis/travis.sh
-
-# added by Miniconda3 installer
-export PATH="/home/alcaster/bin/miniconda3/bin:$PATH"
