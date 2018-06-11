@@ -194,8 +194,9 @@ bindsym $mod+period exec --no-startup-id bash ~/.i3/scripts/pavolume.sh --up
 # decrease sound volume
 bindsym $mod+comma exec --no-startup-id bash ~/.i3/scripts/pavolume.sh --down
 #bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5%
-# mute sound
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle
+
+# Rotate pivot monitor
+bindsym $mod+p exec --no-startup-id sh ~/.i3/scripts/pivot_rotation.sh DVI-I-1
 
 # resize window (you can also use the mouse for that)
 mode "resize" {

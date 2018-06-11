@@ -48,6 +48,7 @@ filetype plugin indent on    " required
 
 " Relative numbers
 set relativenumber 
+set mouse=a
 
 " Set colors
 syntax on
