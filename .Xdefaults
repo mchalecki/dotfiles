@@ -19,8 +19,8 @@
 *.color15:    #E6E6E6
 
 /* URxvt.font:                 -*-terminus-medium-r-normal-*-12-120-72-72-c-60-iso8859-1 */
-URxvt*font: xft:hack:pixelsize=11:antialias=true
-URxvt*boldFont: xft:hack:pixelsize=11:antialias=true
+URxvt*font: xft:hack:pixelsize=12:antialias=true
+URxvt*boldFont: xft:hack:pixelsize=12:antialias=true
 ! Fix font space
 URxvt.letterSpace: -1
 ! Copy paste

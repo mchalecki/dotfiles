@@ -45,6 +45,11 @@ export GOPATH=$HOME/ProgrammingStuff/go
 export PATH=$PATH:/usr/local/go/bin
 # .NET CORE
 export DOTNET_CLI_TELEMETRY_OPTOUT=false
+# Android
+export ANDROID_HOME=$HOME/Android/Sdk
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/tools/bin
+export PATH=$PATH:$ANDROID_HOME/platform-tools
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 

@@ -98,7 +98,7 @@ bindsym $mod+a focus parent
 
 set $workspace1 "1:"
 set $workspace2 "2:"
-set $workspace3 "3:"
+set $workspace3 "3:"
 set $workspace4 "4:"
 set $workspace5 "5:"
 set $workspace6 "6:"
@@ -149,8 +149,9 @@ bindsym $mod+bracketleft workspace prev
 # assigning apps to workspace
 for_window [class="Spotify"] move to workspace $workspace8
 for_window [class="KeePass2"] move to workspace $workspace9
-assign [class="Chrome"] $workspace2
+assign [class="google-chrome"] $workspace2
 assign [class="Nautilus"] $workspace4
+assign [class="jetbrains-*"] $workspace3
 
 # resize window
 mode "resize" {
@@ -207,7 +208,7 @@ bindsym $mod+Control+Right exec dbus-send --print-reply --dest=org.mpris.MediaPl
 bindsym $mod+Control+Left exec dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous
 
 # Rotate pivot monitor
-bindsym $mod+p exec --no-startup-id sh ~/.i3/scripts/pivot_rotation.sh DVI-I-1
+bindsym $mod+p exec --no-startup-id sh ~/.i3/scripts/pivot_rotation.sh DVI-D-0
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -245,7 +246,7 @@ client.urgent           $base02 $base07    $base00 $indicator
 bar {
     status_command i3blocks -c ~/.i3/i3blocks.conf
     position bottom
-    font pango: Hack, FontAwesome 5
+    font pango: Hack, FontAwesome 7
     strip_workspace_numbers no
     #bindsym button4 nop
     #bindsym button5 nop
@@ -263,7 +264,18 @@ bar {
 # Startups
 # Network
 exec --no-startup-id nm-applet
+
 exec --no-startup-id parcellite
 exec --no-startup-id redshift
+
+# Custom applications
+exec --no-startup-id google-chrome
+exec --no-startup-id spotify 
+exec --no-startup-id jetbrains-toolbox
+
 # V-sync https://www.reddit.com/r/i3wm/comments/42cy8b/tearing/
 exec compton --config ~/.i3/scripts/compton.conf -b
+
+# Wallpapers
+exec --no-startup-id feh --randomize --bg-fill ~/.i3/wallpapers/right --bg-fill ~/.i3/wallpapers/left
+
