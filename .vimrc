@@ -48,7 +48,8 @@ filetype plugin indent on    " required
 
 " Relative numbers
 set relativenumber 
-set mouse=a
+set mouse=r
+set backspace=indent,eol,start
 
 " Set colors
 syntax on

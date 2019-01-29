@@ -1,4 +1,5 @@
 # Aliases
+alias mobile='cd /home/alcaster/Projects/pragaleria/pragaleria-mobile'
 
 alias ..='cd ..'
 alias cd..='cd ..'

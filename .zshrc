@@ -38,11 +38,13 @@ export TERMINAL="/usr/bin/urxvt"
 
 # CUDA
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:/usr/local/cuda/include"  
+# export LD_LIBRARY_PATH=/usr/local/cuda-9.0/lib64:$LD_LIBRARY_PATH
+# export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
 export CUDA_HOME=/usr/local/cuda
 export PATH=${CUDA_HOME}/bin:${PATH}
 # GO
-export GOPATH=$HOME/ProgrammingStuff/go
-export PATH=$PATH:/usr/local/go/bin
+export GOPATH=$HOME/go
+export PATH=$PATH:$HOME/Bin/go/bin
 # .NET CORE
 export DOTNET_CLI_TELEMETRY_OPTOUT=false
 # Android
@@ -86,4 +88,4 @@ export NVM_DIR="$HOME/.nvm"
 [ -f /home/alcaster/.travis/travis.sh ] && source /home/alcaster/.travis/travis.sh
 # Config files https://developer.atlassian.com/blog/2016/02/best-way-to-store-dotfiles-git-bare-repo/
 alias config='/usr/bin/git --git-dir=/home/alcaster/.cfg/ --work-tree=/home/alcaster'
-. /home/alcaster/bin/miniconda3/etc/profile.d/conda.sh
+
