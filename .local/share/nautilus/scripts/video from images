@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+out_filename="vid.mp4"
+temp_filename="filelist.txt"
+i=0
+rm $temp_filename || true
+touch $temp_filename
+for FILE in $NAUTILUS_SCRIPT_SELECTED_FILE_PATHS; do
+    i=$((i+1))
+    echo "file '$FILE'" >> $temp_filename
+	#echo "duration 0.03333" >> $temp_filename # can be used instead of -r
+done
+
+command="ffmpeg -f concat -safe 0 -r 30 -i $temp_filename $out_filename"
+echo $command
+eval $command
+
+rm $temp_filename

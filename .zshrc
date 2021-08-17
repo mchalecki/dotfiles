@@ -1,14 +1,13 @@
-# Path to your oh-my-zsh installation.
+#nihao make dupa Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
 ZSH_THEME="robbyrussell"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git cp pip pyenv docker)
+plugins=(git cp pip pyenv docker kubectl ubuntu zsh-autosuggestions zsh-syntax-highlighting zsh-completions)
 
 source $ZSH/oh-my-zsh.sh
-source ~/.zsh_aliases
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
@@ -26,29 +25,45 @@ fi
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
 
 # Suggestions
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+#[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+source $HOME/.bash_completion
 #source ~/enhancd/init.sh
 
-export PATH="/home/alcaster/.pyenv/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+# Python
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init --path)"
+
+export PYTHONBREAKPOINT=ipdb.set_trace
+export PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
 
 # Terminal
-export TERMINAL="/usr/bin/urxvt"
+export TERMINAL="/usr/local/bin/termite"
+export TERM="termite"
+
+# Bin
+export PATH=$PATH:~/bin
+export PATH=$PATH:~/.local/bin
 
 # CUDA
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:/usr/local/cuda/include"  
-# export LD_LIBRARY_PATH=/usr/local/cuda-9.0/lib64:$LD_LIBRARY_PATH
-# export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
 export CUDA_HOME=/usr/local/cuda
 export PATH=${CUDA_HOME}/bin:${PATH}
 # GO
 export GOPATH=$HOME/go
-export PATH=$PATH:$HOME/Bin/go/bin
+export PATH=$PATH:$HOME/bin/go/bin
+# Flutter
+export PATH=$PATH:$HOME/github_sources/flutter/bin
+# Gradle
+export PATH=$PATH:$HOME/bin/gradle/bin
+export GRADLE_HOME=$HOME/bin/gradle/bin
 # .NET CORE
 export DOTNET_CLI_TELEMETRY_OPTOUT=false
 # Android
 export ANDROID_HOME=$HOME/Android/Sdk
+export ANDROID_SDK=$HOME/Android/Sdk
+export ANDROID_NDK=$HOME/Android/Sdk/ndk/r20b
+export ANDROID_NDK_HOME=$ANDROID_NDK
 export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
@@ -60,7 +75,7 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 # HYPHEN_INSENSITIVE="true"
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
-DISABLE_AUTO_UPDATE="true"
+# DISABLE_AUTO_UPDATE="true"
 
 # Uncomment the following line to change how often to auto-update (in days).
 # export UPDATE_ZSH_DAYS=13
@@ -84,8 +99,33 @@ DISABLE_AUTO_UPDATE="true"
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-# added by travis gem
-[ -f /home/alcaster/.travis/travis.sh ] && source /home/alcaster/.travis/travis.sh
+
 # Config files https://developer.atlassian.com/blog/2016/02/best-way-to-store-dotfiles-git-bare-repo/
 alias config='/usr/bin/git --git-dir=/home/alcaster/.cfg/ --work-tree=/home/alcaster'
+# Kubernetes
+export KUBECONFIG=$KUBECONFIG:$HOME/.kube/config
+if [ $commands[kubectl] ]; then
+  source <(kubectl completion zsh)
+fi
+
+export PYENV_VIRTUALENV_DISABLE_PROMPT=1
+pyenv activate automl
+
+# Shell
+source ~/.zsh_aliases
+# Zoxide https://github.com/ajeetdsouza/zoxide
+eval "$(zoxide init zsh)"
+
+# This speeds up pasting w/ autosuggest
+# https://github.com/zsh-users/zsh-autosuggestions/issues/238
+pasteinit() {
+  OLD_SELF_INSERT=${${(s.:.)widgets[self-insert]}[2,3]}
+  zle -N self-insert url-quote-magic # I wonder if you'd need `.url-quote-magic`?
+}
+
+pastefinish() {
+  zle -N self-insert $OLD_SELF_INSERT
+}
+zstyle :bracketed-paste-magic paste-init pasteinit
+zstyle :bracketed-paste-magic paste-finish pastefinish
 

@@ -1,12 +1,10 @@
-set $mod Mod4
-
 # Variables
-set $m_left DVI-D-0
-set $m_right HDMI-0 
+set $mod Mod4
+set $primary_display eDP-1
 
 # Font
-# font pango:DejaVu Sans Mono 8
-font pango:Hack 6
+font pango:DejaVu Sans Mono 8
+#new_window pixel
 # dark grey
 set $base00 #101218
 # navy border
@@ -23,21 +21,22 @@ set $base05 #d0d0d0
 set $base06 #9d9d9d
 # yello urgent
 set $base07 #eae373
+# transparent color
+set $inactivecolor #88888888
+# indicator color
 set $indicator #09bfdf
-
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec urxvt
+bindsym $mod+Return exec x-terminal-emulator
 
 # kill focused window
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-set $execute exec rofi -show drun -eh 2 -padding 16
-bindsym $mod+d $execute
+bindsym $mod+d exec rofi -show drun -eh 2 -padding 16
 bindsym $mod+Tab exec rofi -show window
 # bindsym $mod+d exec dmenu_run -fn 'Hack:bold:pixelsize=11'
 # There also is the (new) i3-dmenu-desktop which only displays applications
@@ -86,7 +85,7 @@ bindsym $mod+f fullscreen
 
 # change container layout (stacked, tabbed, toggle split)
 # bindsym $mod+s layout stacking
-# bindsym $mod+w layout tabbed
+bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
@@ -104,13 +103,26 @@ bindsym $mod+a focus parent
 set $workspace1 "1:"
 set $workspace2 "2:"
 set $workspace3 "3:"
-set $workspace4 "4:"
+set $workspace4 "4:"
 set $workspace5 "5:"
 set $workspace6 "6:"
-set $workspace7 "7:"
+set $workspace7 "7:"
 set $workspace8 "8:"
-set $workspace9 "9:"
+set $workspace9 "9:"
 set $workspace10 "10:"
+#set $workspacef1 "F1:"
+#set $workspacef2 "F2:"
+#set $workspacef3 "F3:"
+# set $workspace11 "11:"
+# set $workspace12 "12:"
+# set $workspace13 "13:"
+# set $workspace14 "14:"
+# set $workspace15 "15:"
+# set $workspace16 "16:"
+# set $workspace17 "17:"
+# set $workspace18 "18:"
+# set $workspace19 "19:"
+# set $workspace20 "20:"
 
 # switch to workspace
 bindsym $mod+1 workspace $workspace1
@@ -123,6 +135,20 @@ bindsym $mod+7 workspace $workspace7
 bindsym $mod+8 workspace $workspace8
 bindsym $mod+9 workspace $workspace9
 bindsym $mod+0 workspace $workspace10
+#bindsym F1 workspace $workspacef1
+#bindsym F2 workspace $workspacef2
+#bindsym F3 workspace $workspacef3
+
+# bindsym Mod1+1 workspace $workspace11
+# bindsym Mod1+2 workspace $workspace12
+# bindsym Mod1+3 workspace $workspace13
+# bindsym Mod1+4 workspace $workspace14
+# bindsym Mod1+5 workspace $workspace15
+# bindsym Mod1+6 workspace $workspace16
+# bindsym Mod1+7 workspace $workspace17
+# bindsym Mod1+8 workspace $workspace18
+# bindsym Mod1+9 workspace $workspace19
+# bindsym Mod1+0 workspace $workspace20
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace $workspace1
@@ -135,16 +161,30 @@ bindsym $mod+Shift+7 move container to workspace $workspace7
 bindsym $mod+Shift+8 move container to workspace $workspace8
 bindsym $mod+Shift+9 move container to workspace $workspace9
 bindsym $mod+Shift+0 move container to workspace $workspace10
+bindsym $mod+F1 move container to workspace $workspaceF1
+bindsym $mod+F2 move container to workspace $workspaceF2
+bindsym $mod+F3 move container to workspace $workspaceF3
 
-workspace $workspace1 output $m_left
-workspace $workspace2 output $m_right
-workspace $workspace3 output $m_right
+# bindsym Mod1+Shift+1 move container to workspace $workspace11
+# bindsym Mod1+Shift+2 move container to workspace $workspace12
+# bindsym Mod1+Shift+3 move container to workspace $workspace13
+# bindsym Mod1+Shift+4 move container to workspace $workspace14
+# bindsym Mod1+Shift+5 move container to workspace $workspace15
+# bindsym Mod1+Shift+6 move container to workspace $workspace16
+# bindsym Mod1+Shift+7 move container to workspace $workspace17
+# bindsym Mod1+Shift+8 move container to workspace $workspace18
+# bindsym Mod1+Shift+9 move container to workspace $workspace19
+# bindsym Mod1+Shift+0 move container to workspace $workspace20
+
+# workspace $workspace1 output HDMI-0
+# workspace $workspace2 output HDMI-0
+# workspace $workspace3 output HDMI-0
 # workspace $workspace4 output HDMI-0
 # workspace $workspace5 output HDMI-0
 # workspace $workspace6 output HDMI-0
-# workspace $workspace7 output DVI-I-0
-workspace $workspace8 output $m_right
-workspace $workspace9 output $m_left
+workspace $workspace7 output $primary_display
+workspace $workspace8 output $primary_display
+# workspace $workspace9 output DVI-I-0
 # workspace $workspace10 output DVI-I-0
 
 # switch to next/previous workspace
@@ -152,11 +192,20 @@ bindsym $mod+bracketright workspace next
 bindsym $mod+bracketleft workspace prev
 
 # assigning apps to workspace
+# for_window [class=".*"] border pixel 0
 for_window [class="Spotify"] move to workspace $workspace8
 for_window [class="KeePass2"] move to workspace $workspace9
-assign [class="google-chrome"] $workspace2
+for_window [class="Slack"] move to workspace $workspace7
+assign [class="Firefox"] $workspace2
+assign [class="Google-chrome"] $workspace2
 assign [class="Nautilus"] $workspace4
-assign [class="jetbrains-*"] $workspace3
+# for_window [class="JetBrains Toolbox"] move to $workspace3 # not working
+assign [class="Thunderbird"] $workspace7
+for_window [title="Battery Warning"] sticky enable # battery popup
+
+# gaps
+#gaps inner 5
+#gaps outer 0
 
 # resize window
 mode "resize" {
@@ -179,6 +228,8 @@ mode "resize" {
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
+bindsym $mod+r mode "resize"
+
 # pause redshift
 bindsym $mod+Shift+0xffc4 exec pkill -USR1 redshift
 # open terminal in same dir
@@ -186,15 +237,17 @@ bindsym $mod+Shift+0xffc4 exec pkill -USR1 redshift
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $mod+Shift+r restart
+bindsym $mod+Shift+r restart #; exec "setxkbmap us"
 # Lock
-bindsym $mod+Shift+Home exec lock
-# Lock after 10 min of inactivity
-exec xautolock -time 10 -locker '/usr/local/bin/lock' -corners -000 &
+bindsym $mod+Shift+Home exec --no-startup-id ~/.i3/scripts/i3lock-fancy-multimonitor
+# Lock after 10 min of inactivity. #TODO Temporary disable lock for recording
+#exec xautolock -time 10 -locker '/usr/local/bin/lock' -corners -000 &
 # exit i3. It hibernates instead of turn down.
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to close? This will end your session.' -b 'Yes, exit i3' 'i3-msg exit'"
 # dialog turn off etc
 bindsym Control+$mod+Delete exec ~/.i3/scripts/shutdown_menu
+# clipboard
+bindsym $mod+c exec --no-startup-id ~/.i3/scripts/copy_greenclip
 
 # volume controls
 # increase sound volume
@@ -204,42 +257,19 @@ bindsym $mod+period exec --no-startup-id bash ~/.i3/scripts/pavolume.sh --up
 bindsym $mod+comma exec --no-startup-id bash ~/.i3/scripts/pavolume.sh --down
 #bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5%
 
-# Sporify control
+# Sporify&mpv-youtube control
 # Play/Pause
-bindsym $mod+Control+Down exec dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause
+bindsym $mod+Control+Down exec playerctl -p spotify play-pause
+bindsym $mod+mod1+Down exec playerctl -p mps-youtube  play-pause
 # Next
-bindsym $mod+Control+Right exec dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next
+bindsym $mod+Control+Right exec playerctl -p spotify next
+bindsym $mod+mod1+Right exec playerctl -p mps-youtube next
 # Previous
-bindsym $mod+Control+Left exec dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous
+bindsym $mod+Control+Left exec playerctl -p spotify previous
+bindsym $mod+mod1+Left exec playerctl -p mps-youtube previous
 
 # Rotate pivot monitor
 bindsym $mod+p exec --no-startup-id sh ~/.i3/scripts/pivot_rotation.sh DVI-D-0
-
-# resize window (you can also use the mouse for that)
-mode "resize" {
-        # These bindings trigger as soon as you enter the resize mode
-
-        # Pressing left will shrink the window’s width.
-        # Pressing right will grow the window’s width.
-        # Pressing up will shrink the window’s height.
-        # Pressing down will grow the window’s height.
-        bindsym j resize shrink width 10 px or 10 ppt
-        bindsym k resize grow height 10 px or 10 ppt
-        bindsym l resize shrink height 10 px or 10 ppt
-        bindsym semicolon resize grow width 10 px or 10 ppt
-
-        # same bindings, but for the arrow keys
-        bindsym Left resize shrink width 10 px or 10 ppt
-        bindsym Down resize grow height 10 px or 10 ppt
-        bindsym Up resize shrink height 10 px or 10 ppt
-        bindsym Right resize grow width 10 px or 10 ppt
-
-        # back to normal: Enter or Escape
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
-}
-
-bindsym $mod+r mode "resize"
 
 client.focused          $base01 $base01    $base06 $indicator
 client.focused_inactive $base02 $base02    $base04 $indicator
@@ -251,7 +281,7 @@ client.urgent           $base02 $base07    $base00 $indicator
 bar {
     status_command i3blocks -c ~/.i3/i3blocks.conf
     position bottom
-    font pango: Hack, FontAwesome 7
+    font pango: Hack, FontAwesome 8
     strip_workspace_numbers no
     #bindsym button4 nop
     #bindsym button5 nop
@@ -269,18 +299,22 @@ bar {
 # Startups
 # Network
 exec --no-startup-id nm-applet
-
-exec --no-startup-id parcellite
 exec --no-startup-id redshift
-
-# Custom applications
 exec --no-startup-id google-chrome
-exec --no-startup-id spotify 
-exec --no-startup-id jetbrains-toolbox
+#exec --no-startup-id spotify 
+# exec --no-startup-id jetbrains-toolbox
+exec --no-startup-id slack
+exec --no-startup-id greenclip daemon
+exec --no-startup-id flameshot
+exec --no-startup-id blueman-applet
+#exec --no-startup-id unclutter -idle 0 -root
+exec --no-startup-id ~/.i3/scripts/i3-battery-popup -N
 
-# V-sync https://www.reddit.com/r/i3wm/comments/42cy8b/tearing/
-exec compton --config ~/.i3/scripts/compton.conf -b
+# Vsync& transparency
+exec --no-startup-id compton --backend glx --paint-on-overlay --vsync opengl-swc
 
 # Wallpapers
-# exec --no-startup-id feh --randomize --bg-fill ~/.i3/wallpapers/right --bg-fill ~/.i3/wallpapers/left
+exec --no-startup-id feh --randomize --bg-fill ~/.i3/wallpapers/
+# Tapping touchpad
+exec xinput set-prop 'DELL081C:00 044E:121F Touchpad' 301 1
 

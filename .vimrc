@@ -15,7 +15,7 @@ Plugin 'L9'
 Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 "--------------"
 " Other plugins"
-Plugin 'scrooloose/nerdtree'
+"Plugin 'scrooloose/nerdtree'
 Plugin 'Chiel92/vim-autoformat'
 "Plugin 'fatih/vim-go'
 "Plugin 'rjohnsondev/vim-compiler-go'
@@ -31,6 +31,7 @@ Plugin 'nanotech/jellybeans.vim'
 Plugin 'nvie/vim-flake8'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
+"Plugin 'liuchengxu/vim-clap'
 
 
 call vundle#end()            " required
@@ -49,7 +50,6 @@ filetype plugin indent on    " required
 " Relative numbers
 set relativenumber 
 set mouse=r
-set backspace=indent,eol,start
 
 " Set colors
 syntax on
@@ -68,11 +68,15 @@ imap ;; <Esc>
 "let g:user_emmet_leader_key=']'
 let mapleader=","
 
+" Tree
+let g:netrw_banner = 0
+
 "Syntatic
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
+" Syntastic
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
@@ -82,6 +86,12 @@ let g:airline_theme='wombat'
 
 " Python run
 nnoremap <buffer> <F9> :exec '!python' shellescape(@%, 1)<cr>
+" Autoformat
+noremap <F3> :Autoformat<CR>
+" Ctags
+map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
+map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
+
 " Jellybeans colors
 color jellybeans
 
@@ -97,6 +107,12 @@ set shiftwidth=4
 set sts=4
 " On pressing tab, insert 4 spaces
 set expandtab
+
+" Encrypting method
+set cm=blowfish2
+
+" Copy to + buffer https://unix.stackexchange.com/a/12571
+set clipboard=unnamedplus
 
 " Automatic reloading of .vimrc
 if has('autocmd')

@@ -1,0 +1,2 @@
+#!/usr/bin/env sh
+echo $(basename "$NAUTILUS_SCRIPT_SELECTED_FILE_PATHS")|xclip -selection clipboard

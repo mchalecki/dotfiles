@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+stack="vstack"
+# Orientation
+dinput () {
+    dmenu -p "Vertical(V)/Horizontal(h):" <&-
+}
+orientation=$(dinput)
+if [ $orientation == "h" ]; then
+  stack="hstack"
+elif [ $orientation == "v" ]; then
+  stack="vstack"
+fi
+
+
+command="ffmpeg " 
+out_filename=""
+i=0
+for FILE in $NAUTILUS_SCRIPT_SELECTED_FILE_PATHS; do
+    i=$((i+1))
+    command+="-i $FILE "
+
+    file_name="${FILE##*/}"
+    file="${file_name%.*}"
+    out_filename+="${file}_"
+done
+
+out_filename="${out_filename::-1}.mp4"
+command+="-filter_complex ${stack}=inputs=${i} ${out_filename}"
+echo $command
+
+eval $command

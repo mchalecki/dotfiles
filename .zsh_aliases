@@ -1,8 +1,8 @@
 # Aliases
-alias mobile='cd /home/alcaster/Projects/pragaleria/pragaleria-mobile'
 
 alias ..='cd ..'
 alias cd..='cd ..'
+alias cdp='cd `pwd`'
 alias mkdir='mkdir -p'
 alias ll="ls -lv --group-directories-first"
 alias la='ll -A'
@@ -11,12 +11,22 @@ alias pingg='ping 8.8.8.8'
 alias pip_upgrade_all='pip freeze | cut -d = -f 1 | xargs pip install --upgrade'
 alias grep='grep --color=auto'
 alias elf='function _elf(){ ps -elf | grep _$1 ; }; _elf'
-alias nvidia-smi='watch -t -n 1 nvidia-smi'
+alias ifconfig='ip -c a'
+alias get_pods='kubectl get pods -o wide'
+alias rp='rsync --info=progress2'
+alias feh='function _feh(){feh --action1 "echo %F | xclip -i" $1};_feh'
+alias commit='git commit'
+alias cdh='function _cdh(){ cd $HOME/$1 };_cdh'
+alias xclip='xclip -selection clipboard'
+# Shorts
+alias s='sudo'
 alias p='python'
+alias v='vim'
+# Work related
+alias vpn='nmcli con up id dc'
 
 # Functions
-function extract()
-{
+function extract(){
     if [ -f $1 ] ; then
         case $1 in
             *.tar.bz2)   tar xvjf $1     ;;
@@ -36,8 +46,7 @@ function extract()
         echo "'$1' is not a valid file!"
     fi
 }
-function docker_ip()
-{
+function docker_ip(){
     if [ $# -eq 0 ]; then
         echo "No arguments provided"
         exit 1
@@ -53,13 +62,109 @@ function google() {
     done
     xdg-open "http://www.google.com/search?q=$search"
 }
-function mcd ()
-{
+function mcd (){
     mkdir -p -- "$1" &&
     cd -P -- "$1"
 }
-function rmd ()
-{
+function rmd (){
     pandoc $1 | lynx -stdin
 }
+function runpy () {
+  docker run -e CUDA_VISIBLE_DEVICES=$1 -u $UID:$GID -it --rm \
+          -v /nas:/nas -v $PWD:/proj -v /tmp/$USER:/tmp --name "$USER$1" \
+          runtf "${@:2}"
+}
+function pwd2() {
+  if [ -z "$1" ]
+    then
+      pwd -P
+  else
+    readlink -f $1
+  fi
+}
+#alias pwd=_pwd
+
+function test_f_1 () {
+    length=$(($#-1))
+    array=${@:1:$length}
+    for var in "$array"
+    do
+        echo "$var"
+        echo "s"
+    done
+}
+function cp_same_name () {
+# based on https://unix.stackexchange.com/a/503592
+    local source="$1"
+    local target="$2"
+
+    local n
+
+    # If the target pathname is a directory, add the source filename
+    # the end of it.
+    if [ -d "$target" ]; then
+        filename=$(basename -- "$source")
+        target+="/${filename%.*}"
+        extension=".${filename##*.}"
+    fi
+
+    # Increment n until a free name is found
+    # (this may leave n unset if the source filename is free).
+    while [ -e "$target$n$extension" ]; do
+        n=$(( n + 1 ))
+    done
+
+    cp "$source" "$target$n$extension"
+}
+
+function slacklog(){
+    slack_hook=https://hooks.slack.com/services/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
+    SECONDS=0
+    start_date=$(date)
+    "$@"
+    ret=$?
+    if [[ $ret -eq 0 ]]
+    then
+        status_icon=":heavy_check_mark:"
+    else
+        status_icon=":x:"
+    fi
+
+    duration=`printf '%dh:%dm:%ds\n' $(($SECONDS/3600)) $(($SECONDS%3600/60)) $(($SECONDS%60))`
+    end_date=$(date)
+
+    message="${@} ended. Exit code:${ret}. Start date:${start_date}, end_date:${end_date},took:${duration}"
+    data='{
+    "blocks": [{
+			"type": "section",
+			"text": {
+				"type": "mrkdwn",
+				"text": ":kubernetes-pod: : '"$POD_NAME"'"
+			}
+		},{
+			"type": "section",
+			"text": {
+				"type": "mrkdwn",
+				"text": "'"$status_icon : ${@} ended with status ${ret}"'"
+			}
+		},{
+			"type": "section",
+			"text": {
+				"type": "mrkdwn",
+				"text": ":clock1: \n '"StartDate: ${start_date} \n EndDate: ${end_date} \n Took: ${duration}"'"
+			}
+		},{
+			"type": "section",
+			"text": {
+				"type": "mrkdwn",
+				"text": ":file_folder: : '"$(pwd .)"'"
+			}
+		},{
+			"type": "divider"
+		}
+	]
+    }'
+    curl -s -X POST -H 'Content-type: application/json' --data "$data"  $slack_hook
+}
+
 

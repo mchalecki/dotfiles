@@ -20,3 +20,6 @@ fi
 if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
 fi
+
+export PATH="$HOME/.local/bin:$PATH"
+. "$HOME/.cargo/env"
